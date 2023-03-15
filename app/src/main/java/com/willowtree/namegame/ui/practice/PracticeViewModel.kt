@@ -29,6 +29,12 @@ class PracticeViewModel(
         }
 
         viewModelScope.launch {
+            store.listener {
+                print("STATE CHANGE: $it")
+            }
+        }
+
+        viewModelScope.launch {
             randomEmployeesUseCase(6).onSuccess {
                 dispatch(PracticeAction.Loaded(it))
             }

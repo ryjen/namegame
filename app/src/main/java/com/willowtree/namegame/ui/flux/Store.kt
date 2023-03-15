@@ -8,16 +8,17 @@ interface Action
 
 typealias Reducer<T> = (state: T, action: Action) -> T
 
-typealias FluxCollector = suspend (FlowCollector<Action>) -> Unit
+typealias StoreCollector<T> = suspend (FlowCollector<T>) -> Unit
 
 class FluxStore<State> internal constructor(
-    private val scope: CoroutineScope,
+    scope: CoroutineScope,
     initialState: State,
-    private val collector: FluxCollector
+    private val collector: DispatchCollector
 ) : Dispatcher {
     private val reducers = mutableListOf<Reducer<State>>()
     private val current = MutableStateFlow(initialState)
-    private val listeners = MutableStateFlow(initialState)
+
+    val listener: StoreCollector<State> = current::collect
 
     init {
         scope.launch {
@@ -28,14 +29,8 @@ class FluxStore<State> internal constructor(
     }
 
     override fun dispatch(action: Action) {
-        val starting = current.value
         current.update { state ->
             reducers.fold(state) { next, reducer -> reducer(next, action) }
-        }
-        if (starting != current.value) {
-            scope.launch {
-                listeners.emit(current.value)
-            }
         }
     }
 

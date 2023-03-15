@@ -1,10 +1,13 @@
 package com.willowtree.namegame.ui.flux
 
 import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.FlowCollector
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlin.coroutines.CoroutineContext
 
 typealias Dispatch = (Action) -> Unit
+
+typealias DispatchCollector = suspend (FlowCollector<Action>) -> Unit
 
 fun interface Dispatcher {
     fun dispatch(action: Action)
@@ -19,7 +22,7 @@ interface StoreDispatcher : Dispatcher {
 }
 
 class FluxDispatcher(
-    private val context: CoroutineContext = Dispatchers.Default
+    context: CoroutineContext = Dispatchers.Default
 ) : StoreDispatcher {
     private val scope = CoroutineScope(context) + Job()
     private val actions = MutableStateFlow<Action>(DispatchAction.Init)
