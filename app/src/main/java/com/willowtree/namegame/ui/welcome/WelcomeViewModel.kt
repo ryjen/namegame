@@ -3,8 +3,8 @@ package com.willowtree.namegame.ui.welcome
 import androidx.lifecycle.ViewModel
 import com.willowtree.namegame.ui.Route
 import com.willowtree.namegame.ui.UiContext
-import com.willowtree.namegame.ui.flux.Action
-import com.willowtree.namegame.ui.flux.Dispatcher
+import com.willowtree.namegame.ui.arch.Action
+import com.willowtree.namegame.ui.arch.Dispatcher
 
 class WelcomeViewModel(
     private val uiContext: UiContext

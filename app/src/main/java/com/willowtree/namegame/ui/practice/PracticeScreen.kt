@@ -19,7 +19,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.willowtree.namegame.domain.model.Employee
-import com.willowtree.namegame.ui.flux.Dispatch
+import com.willowtree.namegame.ui.arch.Dispatch
 
 @Composable
 fun PracticeScreen(viewModel: PracticeViewModel) {

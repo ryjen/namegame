@@ -2,7 +2,7 @@ package com.willowtree.namegame.ui.practice
 
 import com.willowtree.namegame.domain.model.Employee
 import com.willowtree.namegame.domain.model.RandomEmployee
-import com.willowtree.namegame.ui.flux.Action
+import com.willowtree.namegame.ui.arch.Action
 
 sealed class PracticeAction : Action {
     data class Loaded(val employees: List<RandomEmployee>) : PracticeAction()

@@ -1,7 +1,7 @@
 package com.willowtree.namegame.ui
 
+import com.willowtree.namegame.ui.arch.StoreDispatcher
 import com.willowtree.namegame.ui.flux.FluxDispatcher
-import com.willowtree.namegame.ui.flux.StoreDispatcher
 import com.willowtree.namegame.ui.practice.PracticeViewModel
 import com.willowtree.namegame.ui.welcome.WelcomeViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -12,6 +12,8 @@ val uiModule = module {
     viewModelOf(::WelcomeViewModel)
 
     viewModel { param -> PracticeViewModel(uiContext = param.get(), get()) }
+    
+    viewModelOf(::MainViewModel)
 
     single<StoreDispatcher> { FluxDispatcher() }
 }

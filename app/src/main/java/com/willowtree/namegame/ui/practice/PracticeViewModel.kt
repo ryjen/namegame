@@ -3,18 +3,18 @@ package com.willowtree.namegame.ui.practice
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.willowtree.namegame.domain.usecase.RandomEmployeesUseCase
+import com.willowtree.namegame.ui.MainAction
 import com.willowtree.namegame.ui.UiContext
-import com.willowtree.namegame.ui.flux.Action
-import com.willowtree.namegame.ui.flux.Dispatcher
-import com.willowtree.namegame.ui.flux.FluxStore
+import com.willowtree.namegame.ui.ViewDispatcher
+import com.willowtree.namegame.ui.arch.Store
 import kotlinx.coroutines.launch
 
 class PracticeViewModel(
-    uiContext: UiContext,
+    override val uiContext: UiContext,
     private val randomEmployeesUseCase: RandomEmployeesUseCase
-) : ViewModel(), Dispatcher {
+) : ViewModel(), ViewDispatcher {
 
-    private val store: FluxStore<PracticeState> =
+    private val store: Store<PracticeState> =
         uiContext.createStoreIn(viewModelScope, PracticeState())
 
     init {
@@ -28,10 +28,10 @@ class PracticeViewModel(
             }
         }
 
-        viewModelScope.launch {
-            store.listener {
-                print("STATE CHANGE: $it")
-            }
+        dispatch(MainAction.SetTitle("Practice Mode"))
+
+        store.listen {
+            print("STATE CHANGE: $it")
         }
 
         viewModelScope.launch {
@@ -41,9 +41,7 @@ class PracticeViewModel(
         }
     }
 
-    fun state() = store.stateIn(viewModelScope) { it.asUiState() }
-
-    override fun dispatch(action: Action) = store.dispatch(action)
+    fun state() = store.state { it.asUiState() }
 }
 
 fun PracticeState.asUiState() = PracticeUiState(

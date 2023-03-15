@@ -3,7 +3,6 @@ package com.willowtree.namegame.ui
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.ViewModel
-import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.willowtree.namegame.ui.practice.PracticeScreen
@@ -13,13 +12,12 @@ import org.koin.core.parameter.parametersOf
 
 @Composable
 internal fun Navigation(
-    navController: NavHostController,
     modifier: Modifier = Modifier,
     context: UiContext
 ) {
 
     NavHost(
-        navController = navController,
+        navController = context.navController,
         startDestination = Route.Welcome.path,
         modifier = modifier
     ) {

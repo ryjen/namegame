@@ -18,7 +18,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.willowtree.namegame.R
-import com.willowtree.namegame.ui.flux.Dispatch
+import com.willowtree.namegame.ui.arch.Dispatch
 import com.willowtree.namegame.ui.theme.Blue100
 import com.willowtree.namegame.ui.theme.Blue200
 
