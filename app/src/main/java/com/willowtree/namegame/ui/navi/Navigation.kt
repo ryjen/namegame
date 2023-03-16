@@ -5,8 +5,8 @@ import androidx.compose.ui.Modifier
 import androidx.lifecycle.ViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.willowtree.namegame.ui.components.ViewContext
 import com.willowtree.namegame.ui.practice.PracticeScreen
-import com.willowtree.namegame.ui.view.ViewContext
 import com.willowtree.namegame.ui.welcome.WelcomeScreen
 import org.koin.androidx.compose.getViewModel
 import org.koin.core.parameter.parametersOf

@@ -6,9 +6,9 @@ import com.willowtree.namegame.domain.usecase.RandomEmployeesUseCase
 import com.willowtree.namegame.ui.MainAction
 import com.willowtree.namegame.ui.arch.StatefulStore
 import com.willowtree.namegame.ui.arch.Store
-import com.willowtree.namegame.ui.view.ViewContext
-import com.willowtree.namegame.ui.view.ViewDispatcher
-import com.willowtree.namegame.ui.view.mapIn
+import com.willowtree.namegame.ui.components.ViewContext
+import com.willowtree.namegame.ui.components.ViewDispatcher
+import com.willowtree.namegame.ui.components.mapIn
 import kotlinx.coroutines.launch
 
 class PracticeViewModel(
@@ -20,7 +20,24 @@ class PracticeViewModel(
         viewContext.createStore(withState = PracticeState())
 
     init {
-        store.addReducer { state, action ->
+        store.setup()
+
+        dispatch(MainAction.setTitle {
+            title = "Practice Mode"
+            showBack = true
+        })
+
+        viewModelScope.launch {
+            randomEmployeesUseCase(6).onSuccess {
+                dispatch(PracticeAction.Loaded(it))
+            }.onFailure {
+                dispatch(PracticeAction.LoadError(it))
+            }
+        }
+    }
+
+    private fun Store<PracticeState>.setup() {
+        addReducer { state, action ->
             when (action) {
                 is PracticeAction.Loaded -> state.copy(
                     randomEmployees = action.employees,
@@ -31,16 +48,6 @@ class PracticeViewModel(
         }.applyEffect { action, _ ->
             when (action) {
                 is PracticeAction.LoadError -> viewContext.networkError()
-            }
-        }
-
-        dispatch(MainAction.SetTitle("Practice Mode"))
-
-        viewModelScope.launch {
-            randomEmployeesUseCase(6).onSuccess {
-                dispatch(PracticeAction.Loaded(it))
-            }.onFailure {
-                dispatch(PracticeAction.LoadError(it))
             }
         }
     }

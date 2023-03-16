@@ -6,6 +6,7 @@ import androidx.activity.compose.setContent
 import com.willowtree.namegame.data.dataModule
 import com.willowtree.namegame.domain.domainModule
 import com.willowtree.namegame.ui.MainScreen
+import com.willowtree.namegame.ui.components.viewContext
 import com.willowtree.namegame.ui.theme.NameGameTheme
 import com.willowtree.namegame.ui.uiModule
 import org.koin.core.context.startKoin
@@ -23,7 +24,7 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             NameGameTheme {
-                MainScreen()
+                MainScreen(viewContext(this))
             }
         }
     }

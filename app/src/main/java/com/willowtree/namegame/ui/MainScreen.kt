@@ -1,17 +1,17 @@
 package com.willowtree.namegame.ui
 
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.KeyboardArrowLeft
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import com.willowtree.namegame.ui.components.ViewContext
+import com.willowtree.namegame.ui.components.viewContext
 import com.willowtree.namegame.ui.navi.Navigation
-import com.willowtree.namegame.ui.view.ViewContext
-import com.willowtree.namegame.ui.view.viewContext
 import org.koin.androidx.compose.getViewModel
 import org.koin.core.parameter.parametersOf
 
@@ -25,9 +25,31 @@ fun MainScreen(
 
     Scaffold(
         topBar = {
-            state.title?.let {
-                Text(text = it, style = MaterialTheme.typography.titleMedium)
-            }
+            TopAppBar(
+                title = {
+                    state.title?.let {
+                        Text(
+                            text = it,
+                            style = MaterialTheme.typography.titleMedium.copy(
+                                color = Color.White
+                            )
+                        )
+                    }
+                },
+                navigationIcon = {
+                    if (state.showBack) {
+                        IconButton(onClick = {
+                            state.onBack?.let { it() } ?: viewContext.back()
+                        }) {
+                            Icon(
+                                Icons.Default.KeyboardArrowLeft,
+                                contentDescription = null,
+                                tint = Color.White
+                            )
+                        }
+                    }
+                }
+            )
         }
     ) { contentPadding ->
         Navigation(

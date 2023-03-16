@@ -19,27 +19,30 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.willowtree.namegame.R
 import com.willowtree.namegame.ui.arch.Dispatch
+import com.willowtree.namegame.ui.components.OnLifecycleEvent
 import com.willowtree.namegame.ui.theme.Blue100
 import com.willowtree.namegame.ui.theme.Blue200
 
 @Composable
 fun WelcomeScreen(viewModel: WelcomeViewModel) {
-    WelcomeContent(viewModel::dispatch)
+
+    OnLifecycleEvent(onEvent = viewModel::onLifecycleEvent)
+
+    when (LocalConfiguration.current.orientation) {
+        Configuration.ORIENTATION_LANDSCAPE ->
+            WelcomeContentLandscape(viewModel::dispatch)
+        else -> WelcomeContentPortrait(viewModel::dispatch)
+    }
+
 }
 
 @Composable
-private fun WelcomeContent(dispatch: Dispatch) {
-    val orientation = LocalConfiguration.current.orientation
+private fun WelcomeContentPortrait(dispatch: Dispatch) {
 
     Surface(Modifier.fillMaxSize(), color = Blue200) {
         Image(
-            painter = painterResource(
-                id = if (orientation == Configuration.ORIENTATION_LANDSCAPE)
-                    R.drawable.logo_horizontal
-                else
-                    R.drawable.logo_vertical
-            ),
-            alignment = Alignment.CenterStart,
+            painter = painterResource(R.drawable.logo_vertical),
+            alignment = Alignment.Center,
             contentScale = ContentScale.Fit,
             contentDescription = null
         )
@@ -48,7 +51,7 @@ private fun WelcomeContent(dispatch: Dispatch) {
             modifier = Modifier
                 .fillMaxSize()
                 .padding(10.dp)
-                .padding(top = 600.dp),
+                .padding(top = 490.dp),
             verticalArrangement = Arrangement.Center
         ) {
             Text(
@@ -67,8 +70,56 @@ private fun WelcomeContent(dispatch: Dispatch) {
 
             Button(
                 colors = ButtonDefaults.buttonColors(containerColor = Blue100),
-                modifier = Modifier.fillMaxWidth(), onClick = { dispatch(WelcomeAction.Timed) }) {
+                modifier = Modifier.fillMaxWidth(),
+                onClick = { dispatch(WelcomeAction.Timed) }) {
                 Text("Timed Mode")
+            }
+        }
+    }
+}
+
+
+@Composable
+private fun WelcomeContentLandscape(dispatch: Dispatch) {
+
+    Surface(Modifier.fillMaxSize(), color = Blue200) {
+        Image(
+            painter = painterResource(R.drawable.logo_horizontal),
+            alignment = Alignment.TopStart,
+            contentScale = ContentScale.Fit,
+            contentDescription = null
+        )
+
+        Row(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(10.dp)
+                .padding(start = 400.dp),
+            horizontalArrangement = Arrangement.Center,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+
+            Column {
+                Text(
+                    text = "Try matching the WillowTree Employee to their photo",
+                    color = Color.White,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.fillMaxWidth()
+                )
+
+                Button(
+                    colors = ButtonDefaults.buttonColors(containerColor = Blue100),
+                    modifier = Modifier.fillMaxWidth(),
+                    onClick = { dispatch(WelcomeAction.Practice) }) {
+                    Text("Practice Mode")
+                }
+
+                Button(
+                    colors = ButtonDefaults.buttonColors(containerColor = Blue100),
+                    modifier = Modifier.fillMaxWidth(),
+                    onClick = { dispatch(WelcomeAction.Timed) }) {
+                    Text("Timed Mode")
+                }
             }
         }
     }
@@ -77,5 +128,5 @@ private fun WelcomeContent(dispatch: Dispatch) {
 @Preview
 @Composable
 private fun MainPreview() {
-    WelcomeContent(dispatch = {})
+    WelcomeContentPortrait(dispatch = {})
 }
