@@ -27,26 +27,11 @@ fun MainScreen(
         topBar = {
             TopAppBar(
                 title = {
-                    state.title?.let {
-                        Text(
-                            text = it,
-                            style = MaterialTheme.typography.titleMedium.copy(
-                                color = Color.White
-                            )
-                        )
-                    }
+                    state.title?.let { MainTitle(it) }
                 },
                 navigationIcon = {
                     if (state.showBack) {
-                        IconButton(onClick = {
-                            state.onBack?.let { it() } ?: viewContext.back()
-                        }) {
-                            Icon(
-                                Icons.Default.KeyboardArrowLeft,
-                                contentDescription = null,
-                                tint = Color.White
-                            )
-                        }
+                        MainBackButton(state, viewContext::back)
                     }
                 }
             )
@@ -58,3 +43,25 @@ fun MainScreen(
         )
     }
 }
+
+@Composable
+private fun MainTitle(title: String) =
+    Text(
+        text = title,
+        style = MaterialTheme.typography.titleMedium.copy(
+            color = Color.White
+        )
+    )
+
+@Composable
+private fun MainBackButton(state: MainState, onBack: () -> Unit) =
+    IconButton(onClick = {
+        state.onBack?.let { it() } ?: onBack()
+    }) {
+        Icon(
+            Icons.Default.KeyboardArrowLeft,
+            contentDescription = null,
+            tint = Color.White
+        )
+    }
+

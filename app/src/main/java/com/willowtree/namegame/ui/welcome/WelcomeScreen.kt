@@ -54,26 +54,7 @@ private fun WelcomeContentPortrait(dispatch: Dispatch) {
                 .padding(top = 490.dp),
             verticalArrangement = Arrangement.Center
         ) {
-            Text(
-                text = "Try matching the WillowTree Employee to their photo",
-                color = Color.White,
-                textAlign = TextAlign.Center,
-                modifier = Modifier.fillMaxWidth()
-            )
-
-            Button(
-                colors = ButtonDefaults.buttonColors(containerColor = Blue100),
-                modifier = Modifier.fillMaxWidth(),
-                onClick = { dispatch(WelcomeAction.Practice) }) {
-                Text("Practice Mode")
-            }
-
-            Button(
-                colors = ButtonDefaults.buttonColors(containerColor = Blue100),
-                modifier = Modifier.fillMaxWidth(),
-                onClick = { dispatch(WelcomeAction.Timed) }) {
-                Text("Timed Mode")
-            }
+            WelcomeActions(dispatch = dispatch)
         }
     }
 }
@@ -100,28 +81,33 @@ private fun WelcomeContentLandscape(dispatch: Dispatch) {
         ) {
 
             Column {
-                Text(
-                    text = "Try matching the WillowTree Employee to their photo",
-                    color = Color.White,
-                    textAlign = TextAlign.Center,
-                    modifier = Modifier.fillMaxWidth()
-                )
-
-                Button(
-                    colors = ButtonDefaults.buttonColors(containerColor = Blue100),
-                    modifier = Modifier.fillMaxWidth(),
-                    onClick = { dispatch(WelcomeAction.Practice) }) {
-                    Text("Practice Mode")
-                }
-
-                Button(
-                    colors = ButtonDefaults.buttonColors(containerColor = Blue100),
-                    modifier = Modifier.fillMaxWidth(),
-                    onClick = { dispatch(WelcomeAction.Timed) }) {
-                    Text("Timed Mode")
-                }
+                WelcomeActions(dispatch = dispatch)
             }
         }
+    }
+}
+
+@Composable
+private fun WelcomeActions(dispatch: Dispatch) {
+    Text(
+        text = "Try matching the WillowTree Employee to their photo",
+        color = Color.White,
+        textAlign = TextAlign.Center,
+        modifier = Modifier.fillMaxWidth()
+    )
+
+    Button(
+        colors = ButtonDefaults.buttonColors(containerColor = Blue100),
+        modifier = Modifier.fillMaxWidth(),
+        onClick = { dispatch(WelcomeAction.Practice) }) {
+        Text("Practice Mode")
+    }
+
+    Button(
+        colors = ButtonDefaults.buttonColors(containerColor = Blue100),
+        modifier = Modifier.fillMaxWidth(),
+        onClick = { dispatch(WelcomeAction.Timed) }) {
+        Text("Timed Mode")
     }
 }
 

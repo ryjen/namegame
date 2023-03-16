@@ -7,17 +7,15 @@ class RandomEmployeesUseCase(
     private val repository: EmployeeRepository
 ) {
 
-    suspend operator fun invoke(amount: Int): Result<List<RandomEmployee>> {
-        return try {
-            val employees = repository.employees().getOrThrow()
+    suspend operator fun invoke(amount: Int): Result<List<RandomEmployee>> = try {
+        val employees = repository.employees().getOrThrow()
 
-            val randomlySelected = employees.shuffled().take(amount)
+        val randomlySelected = employees.shuffled().take(amount)
 
-            val selected = randomlySelected.random().id
+        val selected = randomlySelected.random().id
 
-            Result.success(randomlySelected.map { RandomEmployee(it, selected == it.id) })
-        } catch (err: Throwable) {
-            Result.failure(err)
-        }
+        Result.success(randomlySelected.map { RandomEmployee(it, selected == it.id) })
+    } catch (err: Throwable) {
+        Result.failure(err)
     }
 }

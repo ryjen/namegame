@@ -57,6 +57,7 @@ class PracticeViewModel(
 }
 
 fun PracticeState.asUiState() = PracticeUiState(
-    images = randomEmployees.associate { it.employee.id to it.employee.headshot }.entries.toList(),
-    name = selectedEmployee?.employee?.name
+    employees = randomEmployees.map { it.employee },
+    selectedId = selectedEmployee?.employee?.id ?: "",
+    name = selectedEmployee?.employee?.name?.toString() ?: ""
 )

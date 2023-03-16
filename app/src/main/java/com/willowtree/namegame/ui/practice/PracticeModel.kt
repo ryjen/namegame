@@ -17,6 +17,7 @@ data class PracticeState(
 )
 
 data class PracticeUiState(
-    val images: List<Map.Entry<String, Employee.Headshot>>,
-    val name: Employee.Name?
+    val employees: List<Employee>,
+    val selectedId: String,
+    val name: String
 )
