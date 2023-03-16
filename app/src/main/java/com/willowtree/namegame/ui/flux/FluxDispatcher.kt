@@ -4,21 +4,21 @@ import com.willowtree.namegame.ui.arch.Action
 import com.willowtree.namegame.ui.arch.Store
 import com.willowtree.namegame.ui.arch.StoreDispatcher
 import kotlinx.coroutines.*
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlin.coroutines.CoroutineContext
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
+
+object FluxInit : Action
 
 class FluxDispatcher(
-    context: CoroutineContext = Dispatchers.Default
+    private val scope: CoroutineScope = CoroutineScope(Dispatchers.Default) + Job()
 ) : StoreDispatcher {
-    private val scope = CoroutineScope(context) + Job()
-    private val actions = MutableStateFlow<Action>(FluxAction.Init)
+    private val actions = MutableSharedFlow<Action>()
 
-    override fun <T> createStoreIn(scope: CoroutineScope, withState: T): Store<T> {
-        return FluxStore(scope, withState).apply {
-            // apply all actions from all stores to each other
-            register(actions::collect)
+    override fun <T> createStoreIn(withState: T): Store<T> =
+        FluxStore(withState).apply {
+            actions.onEach { dispatch(it) }.launchIn(scope)
         }
-    }
 
     override fun dispatch(action: Action) {
         scope.launch {

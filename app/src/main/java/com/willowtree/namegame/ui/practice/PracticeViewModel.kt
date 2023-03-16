@@ -4,18 +4,20 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.willowtree.namegame.domain.usecase.RandomEmployeesUseCase
 import com.willowtree.namegame.ui.MainAction
-import com.willowtree.namegame.ui.UiContext
-import com.willowtree.namegame.ui.ViewDispatcher
+import com.willowtree.namegame.ui.arch.StatefulStore
 import com.willowtree.namegame.ui.arch.Store
+import com.willowtree.namegame.ui.view.ViewContext
+import com.willowtree.namegame.ui.view.ViewDispatcher
+import com.willowtree.namegame.ui.view.mapIn
 import kotlinx.coroutines.launch
 
 class PracticeViewModel(
-    override val uiContext: UiContext,
-    private val randomEmployeesUseCase: RandomEmployeesUseCase
-) : ViewModel(), ViewDispatcher {
+    override val viewContext: ViewContext,
+    private val randomEmployeesUseCase: RandomEmployeesUseCase,
+) : ViewModel(), ViewDispatcher, StatefulStore<PracticeUiState> {
 
     private val store: Store<PracticeState> =
-        uiContext.createStoreIn(viewModelScope, PracticeState())
+        viewContext.createStoreIn(withState = PracticeState())
 
     init {
         store.addReducer { state, action ->
@@ -30,10 +32,6 @@ class PracticeViewModel(
 
         dispatch(MainAction.SetTitle("Practice Mode"))
 
-        store.listen {
-            print("STATE CHANGE: $it")
-        }
-
         viewModelScope.launch {
             randomEmployeesUseCase(6).onSuccess {
                 dispatch(PracticeAction.Loaded(it))
@@ -41,7 +39,8 @@ class PracticeViewModel(
         }
     }
 
-    fun state() = store.state { it.asUiState() }
+    override fun state() = store.state().mapIn(viewModelScope) { it.asUiState() }
+
 }
 
 fun PracticeState.asUiState() = PracticeUiState(

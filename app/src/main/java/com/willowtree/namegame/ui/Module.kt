@@ -11,8 +11,8 @@ import org.koin.dsl.module
 val uiModule = module {
     viewModelOf(::WelcomeViewModel)
 
-    viewModel { param -> PracticeViewModel(uiContext = param.get(), get()) }
-    
+    viewModel { param -> PracticeViewModel(viewContext = param.get(), get()) }
+
     viewModelOf(::MainViewModel)
 
     single<StoreDispatcher> { FluxDispatcher() }

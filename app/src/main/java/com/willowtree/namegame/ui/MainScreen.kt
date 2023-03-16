@@ -9,14 +9,17 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import com.willowtree.namegame.ui.navi.Navigation
+import com.willowtree.namegame.ui.view.ViewContext
+import com.willowtree.namegame.ui.view.viewContext
 import org.koin.androidx.compose.getViewModel
 import org.koin.core.parameter.parametersOf
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainScreen(
-    uiContext: UiContext = newUiContext(),
-    viewModel: MainViewModel = getViewModel { parametersOf(uiContext) }
+    viewContext: ViewContext = viewContext(),
+    viewModel: MainViewModel = getViewModel { parametersOf(viewContext) }
 ) {
     val state by viewModel.state().collectAsState()
 
@@ -29,7 +32,7 @@ fun MainScreen(
     ) { contentPadding ->
         Navigation(
             modifier = Modifier.padding(contentPadding),
-            uiContext
+            viewContext
         )
     }
 }
