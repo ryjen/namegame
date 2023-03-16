@@ -7,5 +7,5 @@ fun interface Dispatcher {
 }
 
 interface StoreDispatcher : Dispatcher {
-    fun <T> createStoreIn(withState: T): Store<T>
+    fun <T> createStore(withState: T): Store<T>
 }

@@ -10,7 +10,7 @@ class MainViewModel(
 ) : ViewModel(), Dispatcher {
 
     private val store =
-        viewContext.createStoreIn(withState = MainState())
+        viewContext.createStore(withState = MainState())
 
     init {
         store.addReducer { state, action ->

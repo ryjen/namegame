@@ -17,7 +17,7 @@ class PracticeViewModel(
 ) : ViewModel(), ViewDispatcher, StatefulStore<PracticeUiState> {
 
     private val store: Store<PracticeState> =
-        viewContext.createStoreIn(withState = PracticeState())
+        viewContext.createStore(withState = PracticeState())
 
     init {
         store.addReducer { state, action ->
@@ -28,6 +28,10 @@ class PracticeViewModel(
                 )
                 else -> state
             }
+        }.applyEffect { action, _ ->
+            when (action) {
+                is PracticeAction.LoadError -> viewContext.networkError()
+            }
         }
 
         dispatch(MainAction.SetTitle("Practice Mode"))
@@ -35,6 +39,8 @@ class PracticeViewModel(
         viewModelScope.launch {
             randomEmployeesUseCase(6).onSuccess {
                 dispatch(PracticeAction.Loaded(it))
+            }.onFailure {
+                dispatch(PracticeAction.LoadError(it))
             }
         }
     }

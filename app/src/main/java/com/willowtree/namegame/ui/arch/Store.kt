@@ -15,9 +15,13 @@ interface StatefulStore<State> {
     fun state(): StateFlow<State>
 }
 
+interface EffectedStore<State> {
+    fun applyEffect(effect: Effect<State>): Store<State>
+}
+
 interface StoreListener<State> {
 
     fun listen(block: (State) -> Unit): Store<State>
 }
 
-interface Store<State> : StatefulStore<State>, ReducerStore<State>
+interface Store<State> : StatefulStore<State>, ReducerStore<State>, EffectedStore<State>

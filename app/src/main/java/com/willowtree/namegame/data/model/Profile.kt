@@ -2,7 +2,6 @@ package com.willowtree.namegame.data.model
 
 import kotlinx.serialization.Serializable
 
-
 @Serializable
 data class Profile(
     val bio: String? = null,

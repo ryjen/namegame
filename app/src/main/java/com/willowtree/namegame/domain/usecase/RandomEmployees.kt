@@ -9,7 +9,7 @@ class RandomEmployeesUseCase(
 
     suspend operator fun invoke(amount: Int): Result<List<RandomEmployee>> {
         return try {
-            val employees = repository.all()
+            val employees = repository.employees().getOrThrow()
 
             val randomlySelected = employees.shuffled().take(amount)
 

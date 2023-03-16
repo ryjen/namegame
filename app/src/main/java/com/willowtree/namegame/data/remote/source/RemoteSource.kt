@@ -11,5 +11,9 @@ class RemoteSource(
     private val api: Api
 ) {
     @OptIn(ExperimentalSerializationApi::class)
-    suspend fun employees(): List<Profile> = Json.decodeFromStream(api.profiles().body())
+    suspend fun employees(): Result<List<Profile>> = try {
+        Result.success(Json.decodeFromStream(api.profiles().body()))
+    } catch (err: Throwable) {
+        Result.failure(err)
+    }
 }

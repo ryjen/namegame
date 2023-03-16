@@ -8,14 +8,12 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
-object FluxInit : Action
-
 class FluxDispatcher(
     private val scope: CoroutineScope = CoroutineScope(Dispatchers.Default) + Job()
 ) : StoreDispatcher {
     private val actions = MutableSharedFlow<Action>()
 
-    override fun <T> createStoreIn(withState: T): Store<T> =
+    override fun <T> createStore(withState: T): Store<T> =
         FluxStore(withState).apply {
             actions.onEach { dispatch(it) }.launchIn(scope)
         }

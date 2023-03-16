@@ -33,7 +33,7 @@ class FluxDispatcherTest {
 
         val dispatcher = FluxDispatcher(scope)
 
-        val storeA = dispatcher.createStoreIn(StateA()).addReducer { state, action ->
+        val storeA = dispatcher.createStore(StateA()).addReducer { state, action ->
             when (action) {
                 is ActionA -> state.copy(a = action.a)
                 is ActionB -> state.copy(a = -action.b)
@@ -41,7 +41,7 @@ class FluxDispatcherTest {
             }
         } as FluxStore<StateA>
 
-        val storeB = dispatcher.createStoreIn(StateB()).addReducer { state, action ->
+        val storeB = dispatcher.createStore(StateB()).addReducer { state, action ->
             when (action) {
                 is ActionA -> state.copy(b = -action.a)
                 is ActionB -> state.copy(b = action.b)

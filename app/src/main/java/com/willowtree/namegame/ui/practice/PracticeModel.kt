@@ -7,6 +7,8 @@ import com.willowtree.namegame.ui.arch.Action
 sealed class PracticeAction : Action {
     data class Loaded(val employees: List<RandomEmployee>) : PracticeAction()
     data class Guess(val id: String) : PracticeAction()
+
+    data class LoadError(val err: Throwable) : PracticeAction()
 }
 
 data class PracticeState(

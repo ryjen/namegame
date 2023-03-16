@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Name Game</string>
+    <string name="error_network_general">An unexpected network error occured.</string>
 </resources>

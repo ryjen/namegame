@@ -8,7 +8,7 @@ import com.willowtree.namegame.domain.repository.EmployeeRepository
 class ProfileRepository(
     private val remoteSource: RemoteSource,
 ) : EmployeeRepository {
-    override suspend fun all() = remoteSource.employees().toDomain()
+    override suspend fun employees() = remoteSource.employees().map { it.toDomain() }
 }
 
 fun List<Profile>.toDomain(): List<Employee> = filter { it.headshot.url != null }.map {
