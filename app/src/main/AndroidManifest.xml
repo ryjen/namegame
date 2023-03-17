@@ -13,9 +13,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.NameGame"
-        android:windowSplashScreenBackground="@color/splash"
-        android:windowSplashScreenIconBackgroundColor="@color/splash"
-        android:windowSplashScreenBrandingImage="@drawable/logo_vertical"
+        android:windowSplashScreenBackground="@color/primary"
+        android:windowSplashScreenIconBackgroundColor="@color/primary"
+        android:windowSplashScreenBrandingImage="@drawable/namegame_logo"
         tools:targetApi="31">
         <activity
             android:name=".app.MainActivity"
