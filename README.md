@@ -1,5 +1,7 @@
 # Name Game
 
+> **Historical example (unmaintained).** A historical Android/Jetpack Compose demo of unidirectional UI state and MVVM/Flux-style interactors. It is not a maintained Android reference implementation; review dependencies and platform compatibility before reuse.
+
 Guess the user
 
 ---
